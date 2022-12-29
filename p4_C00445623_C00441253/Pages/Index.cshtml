@@ -1,0 +1,108 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Search Options for BooksDB";
+}
+
+<!--
+Author:        Rodney Harris and Trevor Karl
+CLID:          C00445623 and C00441253 
+Class:         CMPS 358
+Assignment:    Project #4
+Due Date:      November 20, 2022
+Description:   This file includes the front-end code for the home page so
+               the user can input a parameter to pass to the LINQ queries
+               to search the database and output the results.          
+-->
+
+<div class="text-center">
+    <!--
+        HTML form for the user to input a letter with injected
+        code to pass the user input to the bound property Letter and
+        pass it as a parameter to ListAuthorsByFirstLetter; Loops 
+        through each index in the output list and displays on the page
+    -->
+    <form method="post" enctype="multipart/form-data">
+        Enter the first letter of an author:
+        <input type="text" asp-for="Letter">
+        <input type="submit" value="Submit">
+    </form>
+    @{
+        var authors = 
+            AuthorsByFirstLetter.ListAuthorsByFirstLetter(Model.Letter);
+        if(authors != null) {
+            foreach(var auth in authors)
+            {
+                @auth
+                <br>
+            }
+        }
+    }
+    <br>
+    <!--
+        HTML form for the user to input a full/partial author name with 
+        injected code to pass the user input to the bound property 
+        AuthorPartial and pass it as a parameter to ListAuthorsByPartialName; 
+        Loops through each index in the output list and displays on the page
+    -->
+    <form method="post" enctype="multipart/form-data">
+        Enter all or part of an author's name:
+        <input type="text" asp-for="AuthorPartial">
+        <input type="submit" value="Submit">
+    </form>
+    @{
+        var authorsByPartial =
+            AuthorsByPartial.ListAuthorsByPartialName(Model.AuthorPartial);
+        if(authorsByPartial != null) {
+            foreach(var author in authorsByPartial) {
+                @author
+                <br>
+            }
+        }
+    }
+    <br>
+    <!--
+        HTML form for the user to input a full/partial publisher name with 
+        injected code to pass the user input to the bound property 
+        PublisherPartial and pass it as a parameter to 
+        ListMatchPublisherWithAuthors; Loops through each index in the 
+        output list and displays on the page
+    -->
+    <form method="post" enctype="multipart/form-data">
+        Enter all or part of a publisher's name:
+        <input type="text" asp-for="PublisherPartial">
+        <input type="submit" value="Submit">
+    </form>
+    @{
+        var matchPubWithAuth = 
+            MatchPublishersWithAuthors.ListMatchPublishersWithAuthors(Model.PublisherPartial);
+        if(matchPubWithAuth != null) {
+            foreach(var match in matchPubWithAuth) {
+                @match
+                <br>
+            }
+        }
+    }
+    <br>
+    <!--
+        HTML form for the user to input a full/partial title with injected
+        code to pass the user input to the bound property TitlePartial and
+        pass it as a parameter to ListTitleAssociatedInformation; Loops 
+        through each index in the output list and displays on the page 
+    -->
+    <form method="post" enctype="multipart/form-data">
+        Enter all or part of a book's title:
+        <input type="text" asp-for="TitlePartial">
+        <input type="submit" value="Submit">
+    </form>
+    @{
+        var titleInfo =
+            TitleAssociatedInformation.ListTitleAssociatedInformation(Model.TitlePartial);
+        if(titleInfo != null) {
+            foreach(var tI in titleInfo) {
+                @tI
+                <br>
+            }
+        }
+    }
+</div>
